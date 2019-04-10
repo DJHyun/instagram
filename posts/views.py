@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import PostModelForm
 
 
@@ -7,7 +7,11 @@ def create(request):
     # 만약, POST 요청이 오면
     if request.method == 'POST':
         # 글을 작성하기.
-        pass
+        form = PostModelForm(request.POST)
+        if form.is_valid:
+            form.save()
+            return redirect('posts:create')
+            
     # 아니면 (GET 요청이 오면)
     else:
 
