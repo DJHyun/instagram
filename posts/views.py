@@ -32,5 +32,7 @@ def list(request):
     }
     return render(request, 'posts/list.html', context)
     
-def delete(request):
-    pass
+def delete(request, post_id):
+    Post.objects.get(pk=post_id).delete()
+    return redirect('posts:list')
+    
