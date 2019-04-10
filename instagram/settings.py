@@ -25,7 +25,7 @@ SECRET_KEY = '-quma&!nyducsjtq9f445indt##n#e6nf5-b%@_@7z_ghko_@_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['last-dongjunhyun.c9users.io']
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'instagram.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], # /INSTAGRAM/templates
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
