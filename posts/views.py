@@ -40,7 +40,7 @@ def update(request, post_id):
     po = Post.objects.get(pk=post_id)
     if request.method == "POST":
         # 수정 내용 DB에 반영
-        form = PostModelForm(request.POST,instance=po)
+        form = PostModelForm(request.POST,request.FILES,instance=po)
         if form.is_valid:
             po = form.save()
             return redirect('posts:list')
