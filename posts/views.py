@@ -1,7 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .forms import PostModelForm
 from .models import Post
-
 
 # Create your views here.
 def create(request):
@@ -36,17 +35,26 @@ def list(request):
     return render(request, 'posts/list.html', context)
     
 def delete(request, post_id):
-    Post.objects.get(pk=post_id).delete()
+    post = get_object_or_404(Post, pk=post_id)
+    
+    if post.user != request.user:
+        return redirect('posst:list')
+    
+    post.delete()
     return redirect('posts:list')
 
 
 def update(request, post_id):
-    po = Post.objects.get(pk=post_id)
+    post = get_object_or_404(Post, pk=post_id)
+    
+    if post.user != request.user:
+        return redirect('posts:list')
+    
     if request.method == "POST":
         # 수정 내용 DB에 반영
         form = PostModelForm(request.POST,request.FILES,instance=po)
         if form.is_valid:
-            po = form.save()
+            post = form.save()
             return redirect('posts:list')
         pass
     else:
