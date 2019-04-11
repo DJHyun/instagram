@@ -15,5 +15,5 @@ class PostModelForm(forms.ModelForm):
     class Meta:
         model = Post
         # input을 만들 칼럼 값을 list로 만들어 넣어준다.
-        fields = ['content', 'image',]
+        fields = ['content', 'image', ]
         
