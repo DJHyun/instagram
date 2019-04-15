@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 
 class PostModelForm(forms.ModelForm):
@@ -16,4 +16,12 @@ class PostModelForm(forms.ModelForm):
         model = Post
         # input을 만들 칼럼 값을 list로 만들어 넣어준다.
         fields = ['content', 'image', ]
+        
+class CommentForm(forms.ModelForm):
+    # content = forms.CharField(label='content')
+    
+    class Meta:
+        model = Comment
+        fields = ['content']
+    
         

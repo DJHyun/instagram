@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import PostModelForm
-from .models import Post
+from .forms import PostModelForm,CommentForm
+from .models import Post, Comment
 
 # Create your views here.
 def create(request):
@@ -29,9 +29,13 @@ def create(request):
 def list(request):
     # 모든 Post를 보여줌
     posts = Post.objects.all()
+    comments_form = CommentForm()
+    
     context = {
         'posts': posts,
+        'comments_form': comments_form
     }
+    
     return render(request, 'posts/list.html', context)
     
 def delete(request, post_id):
@@ -52,16 +56,27 @@ def update(request, post_id):
     
     if request.method == "POST":
         # 수정 내용 DB에 반영
-        form = PostModelForm(request.POST,request.FILES,instance=po)
+        form = PostModelForm(request.POST,request.FILES,instance=post)
         if form.is_valid:
             post = form.save()
             return redirect('posts:list')
         pass
     else:
         # edit 수정 내용 편집
-        form = PostModelForm(instance=po)
+        form = PostModelForm(instance=post)
         context = {
             'form': form
         }
         return render(request, 'posts/update.html',context)
+    
+def create_comments(request, post_id):
+    comment_form = CommentForm(request.POST)
+    
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.user = request.user
+        comment.post_id = post_id
+        comment.save()
+    
+    return redirect('posts:list')
     
