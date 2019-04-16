@@ -80,3 +80,18 @@ def create_comments(request, post_id):
     
     return redirect('posts:list')
     
+
+def like(request, post_id):
+    post = get_object_or_404(Post,id=post_id)
+    # 특정 유저가 특정 포스트를 좋아요 할때 
+    # 만약 좋아요가 되어 있다면, 
+    # -> 좋아요를 해제하고,
+    if request.user in post.like_users.all():
+        post.like_users.remove(request.user)
+    else:
+    # 아니면
+    # -> 좋아요를 한다.
+        post.like_users.add(request.user)
+    
+    return redirect('posts:list')
+        
