@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import get_user_model
 
 
 # Create your views here.
@@ -32,3 +33,8 @@ def login(request):
         # 유저로부터 username과 비밀번호를 받는다.
         form = AuthenticationForm()
         return render(request, 'accounts/login.html', {'form':form})
+
+def profile(request, username):
+    # username을 가진 유저의 상세 정보를 보여주는 페이지
+    profile = get_object_or_404(get_user_model(), username=username)
+    return render(request, 'accounts/profile.html', {'profile':profile})
